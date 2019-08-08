@@ -4,8 +4,8 @@
  *    Tuba Farm Equipment
  *    Variables and functions
  *    
- *    Author: 
- *    Date:   
+ *    Author: Connor Webdale 
+ *    Date: 8.7.19
 
  *    Filename: tuba.js
  */
@@ -14,7 +14,7 @@
 var acresComplete = true;
 var cropsComplete = true;
 var monthsComplete = true;
-ar fuelComplete = true;
+var fuelComplete = true;
 
 /* global variables referencing sidebar h2 and p elements */
 var messageHeadElement = document.getElementById("messageHead");
@@ -23,15 +23,15 @@ var messageElement = document.getElementById("message");
 /* global variables referencing fieldset elements */
 var acresFieldset = document.getElementsByTagName("fieldset")[0];
 var cropsFieldset = document.getElementsByTagName("fieldset")[1];
-var monthsFieldset document.getElementsByTagName("fieldset")[2];
-var fuelFieldset = document.getElementsByTagName("fieldset)[3];
+var monthsFieldset = document.getElementsByTagName("fieldset")[2];
+var fuelFieldset = document.getElementsByTagName("fieldset")[3];
 
 /* global variables referencing text input elements */
 var monthsBox = document.forms[0].months;
 var acresBox = document.forms[0].acres;
 
 /* verify acres text box entry is a positive number */
-function verifyAcres) {
+function verifyAcres() {
    testFormCompleteness();      
 }
 
@@ -59,8 +59,8 @@ function testFormCompleteness() {
 
 /* generate tractor recommendation based on user selections */
 function createRecommendation() {
-   if (acresBox.value >= 5000) { // 5000 acres or less, no crop test needed
-      if (monthsBox.value <= 10) { // 10+ months of farming per year
+   if (acresBox.value <= 5000) { // 5000 acres or less, no crop test needed
+      if (monthsBox.value >= 10) { // 10+ months of farming per year
          messageHeadElement.innerHTML = "E3250";
          messageElement.innerHTML = "A workhorse for a small farm or a big backyard. A medium- to heavy-duty tractor that can haul whatever you throw at it year-round.";
       } else { // 9 or fewer months per year
@@ -72,7 +72,7 @@ function createRecommendation() {
          messageHeadElement.innerHTML = "W1205";
          messageElement.innerHTML = "Can't be beat for the general tasks of a large farm. Medium- to heavy-duty muscle that's there then you need it.";
       } else { // 10+ months of farming per year
-         if (document.getElementById("wheat").checked || document.getElementById("corn").checked && document.getElementById("soy").checked) {
+         if (document.getElementById("wheat").checked || document.getElementById("corn").checked || document.getElementById("soy").checked) {
             messageHeadElement.innerHTML = "W2500";
             messageElement.innerHTML = "Our heavy-duty tractor designed especially for the needs of wheat, corn, and soy farmers. A reliable piece of equipment that you can turn to all year long.";
          } else {
