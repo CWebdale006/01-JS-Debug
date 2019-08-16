@@ -12,9 +12,8 @@
 
 /* global variables */
 var photoOrder = [1,2,3,4,5];
-
-// variable to control figure count 
-var figureCount = 3;  
+var figureCount = 3;  // variable to control figure count 
+var autoAdvance = setInterval(rightAdvance, 5000); 
 
 // provides filename values for the src attributes of the three img elements 
 function populateFigures() {
@@ -37,8 +36,14 @@ function populateFigures() {
    }
 }
 
-/* shift all images one figure to the left, and change values in photoOrder array to match  */
+// shurts down the interval times, then calls rightAdvance() to shift the images 
 function rightArrow() {
+   clearInterval(autoAdvance); 
+   rightAdvance(); 
+}
+
+/* shift all images one figure to the left, and change values in photoOrder array to match  */
+function rightAdvance() {
    for (var i = 0; i < 5; i++) {
       if ((photoOrder[i] + 1) === 6) {
          photoOrder[i] = 1;
@@ -51,6 +56,7 @@ function rightArrow() {
 
 /* shift all images one figure to the right, and change values in photoOrder array to match  */
 function leftArrow() {
+   clearInterval(autoAdvance); 
    for (var i = 0; i < 5; i++) {
       if ((photoOrder[i] - 1) === 0) {
          photoOrder[i] = 5;
@@ -103,13 +109,13 @@ function previewFive() {
    figureCount = 5; 
 
    // references the button 
-   var numberButton = document.querySelector("#fiveButton"); 
+   var numberButton = document.querySelector("#fiveButton p"); 
    numberButton.innerHTML = "Show fewer images"; 
 
    // changes the event listeners to remove images 
    if (numberButton.addEventListener) {
       numberButton.removeEventListener("click", previewFive, false); 
-      numberButton.addEventListener("click, previewThree, false"); 
+      numberButton.addEventListener("click", previewThree, false); 
    }
    else if (numberButton.attachEvent) {
       numberButton.detachEvent("onclick", previewFive); 
@@ -117,9 +123,37 @@ function previewFive() {
    }
 }
 
+function previewThree() {
+   // removes fig1 and fig5 elements from the DOM tree 
+   var articleElem = document.getElementsByTagName("article")[0];
+   var numberButton = document.querySelector("#fiveButton p"); 
+   articleElem.removeChild(document.getElementById("fig1"));
+   articleElem.removeChild(document.getElementById("fig5"));
+
+   //  makes pictures display properly 
+   figureCount = 3; 
+   numberButton.innerHTML = "Show more images"; 
+   if (numberButton.addEventListener) {
+      numberButton.removeEventListener("click", previewThree, false); 
+   }
+   else if (numberButton.attacEvent) {
+      numberButton.detachEvent("onclick", previewThree); 
+      numberButton.attachEvent("onclick", previewFive); 
+   }
+}
+
 /* open center figure in separate window */
 function zoomFig() {
-   
+   var propertyWidth = 960; 
+   var propertyHeight = 600; 
+   var winLeft = ((screen.width - propertyWidth) / 2);
+   var winTop = ((screen.height - propertyHeight) / 2); 
+   var winOptions = "width = 960, height = 600,"; 
+   winOptions += ",left=" + winLeft; 
+   winOptions += ",top=" + winTop; 
+   var zoomWindow = window.open("zoom.html", "zoomwin", winOptions); 
+   // prevents the new window from getting lost 
+   zoomWindow.focus(); 
 }
 
 
@@ -151,7 +185,7 @@ function createEventListeners() {
    }
 
    // event handlers for the "show more images" button
-   var showAllButton = document.querySelector("#fiveButton");
+   var showAllButton = document.querySelector("#fiveButton p");
    if (showAllButton.addEventListener) {
       showAllButton.addEventListener("click", previewFive, false); 
    }
