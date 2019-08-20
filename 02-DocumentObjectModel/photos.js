@@ -135,6 +135,7 @@ function previewThree() {
    numberButton.innerHTML = "Show more images"; 
    if (numberButton.addEventListener) {
       numberButton.removeEventListener("click", previewThree, false); 
+      numberButton.addEventListener("click", previewFive, false); 
    }
    else if (numberButton.attacEvent) {
       numberButton.detachEvent("onclick", previewThree); 
